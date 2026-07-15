@@ -393,12 +393,85 @@
   }
   footer a { color: var(--teal-light); text-decoration: none; }
 
+  /* GALLERY */
+  .gallery { background: var(--navy); }
+  .gallery .section-label { color: var(--teal-light); }
+  .gallery .section-title { color: var(--white); }
+  .gallery .section-divider { background: var(--teal); }
+  .gallery-disclaimer {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+  .gallery-item {
+    overflow: hidden;
+    border-radius: 2px;
+    aspect-ratio: 4/3;
+    background: rgba(255,255,255,0.05);
+    cursor: pointer;
+    position: relative;
+  }
+  .gallery-item:nth-child(1),
+  .gallery-item:nth-child(6) {
+    grid-column: span 2;
+    aspect-ratio: 16/9;
+  }
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease, filter 0.3s;
+    filter: brightness(0.88);
+  }
+  .gallery-item:hover img { transform: scale(1.05); filter: brightness(1); }
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: rgba(26,46,74,0.5);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.3s;
+    color: white; font-size: 0.8rem; letter-spacing: 0.05em;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+  /* LIGHTBOX */
+  .lightbox {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,0.92);
+    align-items: center; justify-content: center;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox img {
+    max-width: 90vw; max-height: 88vh;
+    object-fit: contain; border-radius: 2px;
+  }
+  .lightbox-close {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    color: white; font-size: 2rem; cursor: pointer;
+    background: none; border: none; line-height: 1;
+    opacity: 0.7; transition: opacity 0.2s;
+  }
+  .lightbox-close:hover { opacity: 1; }
+  .lightbox-caption {
+    position: absolute; bottom: 1.5rem; left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.6);
+    font-size: 0.8rem; letter-spacing: 0.05em;
+  }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .nav-links { display: none; }
     .about-grid, .hours-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
     .hero-stats { gap: 2rem; }
     .about-photo-badge { right: 0; bottom: -0.5rem; }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-item:nth-child(1),
+    .gallery-item:nth-child(6) { grid-column: span 2; }
   }
 </style>
 </head>
@@ -411,6 +484,7 @@
     <li><a href="#about">About</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#hours">Hours</a></li>
+    <li><a href="#gallery">Gallery</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -679,6 +753,80 @@
     </div>
   </div>
 </section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="section-inner">
+    <div class="section-label">Inside Chandran Clinic</div>
+    <h2 class="section-title">Photo Gallery</h2>
+    <div class="section-divider"></div>
+    <p class="gallery-disclaimer">⚠ This gallery contains medical and surgical imagery from our operating theatre.</p>
+    <div class="gallery-grid">
+
+      <div class="gallery-item" onclick="openLightbox('images/dr-surgery-team.jpg', 'Dr. Ravikumar with OT Team')">
+        <img src="images/dr-surgery-team.jpg" alt="Dr. Ravikumar with OT Team" />
+        <div class="gallery-overlay">View</div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox('images/open-surgery-1.jpg', 'Open Surgery')">
+        <img src="images/open-surgery-1.jpg" alt="Open Surgery" />
+        <div class="gallery-overlay">View</div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox('images/open-surgery-2.jpg', 'Open Surgery')">
+        <img src="images/open-surgery-2.jpg" alt="Open Surgery" />
+        <div class="gallery-overlay">View</div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox('images/dr-surgery-solo.jpg', 'Laparoscopic Surgery')">
+        <img src="images/dr-surgery-solo.jpg" alt="Laparoscopic Surgery" />
+        <div class="gallery-overlay">View</div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox('images/surgical-instruments.jpg', 'Surgical Instruments')">
+        <img src="images/surgical-instruments.jpg" alt="Surgical Instruments" />
+        <div class="gallery-overlay">View</div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox('images/lap-monitor-1.jpg', 'Laparoscopic Monitor')">
+        <img src="images/lap-monitor-1.jpg" alt="Laparoscopic Monitor" />
+        <div class="gallery-overlay">View</div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox('images/lap-monitor-2.jpg', 'Laparoscopic Monitor')">
+        <img src="images/lap-monitor-2.jpg" alt="Laparoscopic Monitor" />
+        <div class="gallery-overlay">View</div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox('images/lap-monitor-3.jpg', 'Laparoscopic Monitor')">
+        <img src="images/lap-monitor-3.jpg" alt="Laparoscopic Monitor" />
+        <div class="gallery-overlay">View</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <img id="lightbox-img" src="" alt="" />
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<script>
+  function openLightbox(src, caption) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-caption').textContent = caption;
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
 
 <!-- FOOTER -->
 <footer>
