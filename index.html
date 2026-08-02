@@ -393,7 +393,97 @@
   }
   footer a { color: var(--teal-light); text-decoration: none; }
 
-  /* GALLERY */
+  /* HAMBURGER MENU */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 68px; left: 0; right: 0;
+    background: rgba(26,46,74,0.98);
+    backdrop-filter: blur(8px);
+    padding: 1.5rem 5%;
+    z-index: 99;
+    border-bottom: 1px solid rgba(42,140,140,0.25);
+    flex-direction: column;
+    gap: 0;
+  }
+  .mobile-menu.active { display: flex; }
+  .mobile-menu a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: color 0.2s;
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a:hover { color: var(--teal-light); }
+
+  /* HERO ANIMATION */
+  @keyframes heroFloat {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-15px) scale(1.02); }
+  }
+  @keyframes heroPulse {
+    0%, 100% { opacity: 0.08; }
+    50% { opacity: 0.18; }
+  }
+  .hero::after {
+    content: '';
+    position: absolute; top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse at 70% 50%, rgba(42,140,140,0.12) 0%, transparent 60%);
+    animation: heroFloat 8s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow { animation: fadeUp 0.7s ease forwards; }
+  .hero h1 { animation: fadeUp 0.7s 0.15s ease both; }
+  .hero-desc { animation: fadeUp 0.7s 0.3s ease both; }
+  .hero-cta { animation: fadeUp 0.7s 0.45s ease both; }
+  .hero-stats { animation: fadeUp 0.7s 0.6s ease both; }
+
+  /* SCROLL FADE IN */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .fade-in-delay-1 { transition-delay: 0.1s; }
+  .fade-in-delay-2 { transition-delay: 0.2s; }
+  .fade-in-delay-3 { transition-delay: 0.3s; }
+  .fade-in-delay-4 { transition-delay: 0.4s; }
+
+
   .gallery { background: var(--navy); }
   .gallery .section-label { color: var(--teal-light); }
   .gallery .section-title { color: var(--white); }
@@ -466,6 +556,7 @@
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .nav-links { display: none; }
+    .hamburger { display: flex; }
     .about-grid, .hours-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
     .hero-stats { gap: 2rem; }
     .about-photo-badge { right: 0; bottom: -0.5rem; }
@@ -487,7 +578,19 @@
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#services" onclick="closeMobileMenu()">Services</a>
+  <a href="#hours" onclick="closeMobileMenu()">Hours</a>
+  <a href="#gallery" onclick="closeMobileMenu()">Gallery</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="home">
@@ -521,7 +624,7 @@
 <!-- ABOUT -->
 <section class="about" id="about">
   <div class="section-inner">
-    <div class="about-grid">
+    <div class="about-grid fade-in">
       <div class="about-photo-wrap">
         <div class="about-photo">
           <div class="photo-placeholder">
@@ -592,7 +695,7 @@
     <div class="section-label">What We Treat</div>
     <h2 class="section-title">Surgical Services</h2>
     <div class="section-divider"></div>
-    <div class="services-grid">
+    <div class="services-grid fade-in">
 
       <div class="service-card">
         <div class="service-icon">
@@ -649,7 +752,7 @@
 <!-- HOURS -->
 <section class="hours" id="hours">
   <div class="section-inner">
-    <div class="hours-grid">
+    <div class="hours-grid fade-in">
       <div>
         <div class="section-label">Visiting Hours</div>
         <h2 class="section-title">Clinic Timings</h2>
@@ -706,7 +809,7 @@
     <div class="section-label">Find Us</div>
     <h2 class="section-title">Contact & Location</h2>
     <div class="section-divider"></div>
-    <div class="contact-grid">
+    <div class="contact-grid fade-in">
       <div class="contact-info">
         <div class="contact-item">
           <div class="contact-item-icon">
@@ -759,7 +862,7 @@
     <h2 class="section-title">Photo Gallery</h2>
     <div class="section-divider"></div>
     <p class="gallery-disclaimer">⚠ This gallery contains medical and surgical imagery from our operating theatre.</p>
-    <div class="gallery-grid">
+    <div class="gallery-grid fade-in">
 
       <div class="gallery-item" onclick="openLightbox('images/Dr-surgery-team.jpg', 'Dr. Ravikumar with OT Team')">
         <img src="images/Dr-surgery-team.jpg" alt="Dr. Ravikumar with OT Team" />
@@ -824,6 +927,30 @@
     document.body.style.overflow = '';
   }
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+  });
+  function closeMobileMenu() {
+    hamburger.classList.remove('active');
+    mobileMenu.classList.remove('active');
+  }
+
+  // Scroll fade-in
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  fadeEls.forEach(el => observer.observe(el));
 </script>
 
 <!-- FOOTER -->
