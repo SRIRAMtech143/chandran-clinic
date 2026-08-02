@@ -443,19 +443,31 @@
 
   /* HERO ANIMATION */
   @keyframes heroFloat {
-    0%, 100% { transform: translateY(0px) scale(1); }
-    50% { transform: translateY(-15px) scale(1.02); }
+    0%, 100% { transform: translate(0px, 0px); }
+    33% { transform: translate(30px, -20px); }
+    66% { transform: translate(-20px, 20px); }
   }
-  @keyframes heroPulse {
-    0%, 100% { opacity: 0.08; }
-    50% { opacity: 0.18; }
+  @keyframes heroFloat2 {
+    0%, 100% { transform: translate(0px, 0px); }
+    33% { transform: translate(-25px, 15px); }
+    66% { transform: translate(20px, -25px); }
   }
-  .hero::after {
-    content: '';
-    position: absolute; top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: radial-gradient(ellipse at 70% 50%, rgba(42,140,140,0.12) 0%, transparent 60%);
-    animation: heroFloat 8s ease-in-out infinite;
+  .hero-blob-1 {
+    position: absolute;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(42,140,140,0.18) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -100px; right: 5%;
+    animation: heroFloat 9s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .hero-blob-2 {
+    position: absolute;
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(42,140,140,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    bottom: -50px; right: 30%;
+    animation: heroFloat2 11s ease-in-out infinite;
     pointer-events: none;
   }
   @keyframes fadeUp {
@@ -594,6 +606,8 @@
 
 <!-- HERO -->
 <section class="hero" id="home">
+  <div class="hero-blob-1"></div>
+  <div class="hero-blob-2"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">General Surgeon & Family Physician · Est. 2008</div>
     <h1>Trusted Care.<br /><em>Precise Hands.</em><br />Better Outcomes.</h1>
